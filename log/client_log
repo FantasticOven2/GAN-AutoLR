@@ -1,0 +1,5 @@
+usage: main.py [-h] [--num-epochs NUM_EPOCHS] [--ndf NDF] [--ngf NGF]
+               [--nz NZ] [--d-lr D_LR] [--g-lr G_LR] [--nc NC]
+               [--batch-size BATCH_SIZE] [--num-test-samples NUM_TEST_SAMPLES]
+               [--output-path OUTPUT_PATH] [--fps FPS] [--use-fixed]
+main.py: error: unrecognized arguments: --port 12315

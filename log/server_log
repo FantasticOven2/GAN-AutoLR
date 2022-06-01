@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/fantasticoven/Desktop/dcgan-mnist/autolrs_server.py", line 9, in <module>
+    from skopt import Optimizer
+  File "/home/fantasticoven/anaconda3/envs/AutoLRS/lib/python3.9/site-packages/skopt/__init__.py", line 55, in <module>
+    from .searchcv import BayesSearchCV
+  File "/home/fantasticoven/anaconda3/envs/AutoLRS/lib/python3.9/site-packages/skopt/searchcv.py", line 16, in <module>
+    from sklearn.utils.fixes import MaskedArray
+ImportError: cannot import name 'MaskedArray' from 'sklearn.utils.fixes' (/home/fantasticoven/anaconda3/envs/AutoLRS/lib/python3.9/site-packages/sklearn/utils/fixes.py)

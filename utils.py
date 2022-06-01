@@ -1,3 +1,4 @@
+from random import shuffle
 import torch
 import matplotlib.pyplot as plt
 from torchvision import datasets, transforms
@@ -7,17 +8,28 @@ import imageio
 import natsort
 from glob import glob
 
+VAL_LEN = 250
+
 def get_data_loader(batch_size):
     # MNIST Dataset
-    transform = transforms.Compose([
+    # transform_train = transforms.Compose(
+    #                 [transforms.Resize(32),
+    #                 transforms.ToTensor(),
+    #                 transforms.Normalize(0.5, 0.5)])
+        
+    transform_train = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=(0.1307, ), std=(0.3081, ))])
 
-    train_dataset = datasets.MNIST(root='./mnist_data/', train=True, transform=transform, download=True)
+    train_dataset = datasets.MNIST(root='./mnist_data/', train=True, transform=transform_train, download=True)
+    test_dataset = datasets.MNIST(root='./mnist_data/', train=False, transform=transform_train, download=True)
+    val_dataset = torch.utils.data.Subset(test_dataset, range(VAL_LEN))
 
     # Data Loader
     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-    return train_loader
+    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
+    val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=batch_size, shuffle=False)
+    return train_loader, test_loader, val_loader
 
 def generate_images(epoch, path, fixed_noise, num_test_samples, netG, device, use_fixed=False):
     z = torch.randn(num_test_samples, 100, 1, 1, device=device)
@@ -42,6 +54,7 @@ def generate_images(epoch, path, fixed_noise, num_test_samples, netG, device, us
         j = k%4
         ax[i,j].cla()
         ax[i,j].imshow(generated_fake_images[k].data.cpu().numpy().reshape(28,28), cmap='Greys')
+
     label = 'Epoch_{}'.format(epoch+1)
     fig.text(0.5, 0.04, label, ha='center')
     fig.suptitle(title)
